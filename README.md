@@ -23,6 +23,39 @@ The application uses Spring Boot and Spring AI to expose code execution capabili
 
 2. **McpServerApplication**: The main Spring Boot application that registers the CodeExecutionService as a tool provider for AI systems.
 
+## Containerized Deployment
+
+For improved security and isolation, this application can be deployed as a Docker container:
+
+### Using Docker
+
+```bash
+# Build the Docker image
+docker build -t mcp-code-executor .
+
+# Run the container
+docker run -p 8080:8080 mcp-code-executor
+```
+
+### Using Docker Compose
+
+```bash
+# Start the service
+docker-compose up -d
+
+# Check logs
+docker-compose logs -f
+
+# Stop the service
+docker-compose down
+```
+
+The Docker setup includes:
+- A non-root user for improved security
+- Resource limits to prevent abuse
+- Isolated execution environment
+- Ephemeral storage for code execution
+
 ## Safety Features
 
 - Execution timeouts (15 seconds by default)

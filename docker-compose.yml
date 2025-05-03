@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mcp-code-executor:
+    build: .
+    container_name: mcp-code-executor
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    # Set resource limits to contain code execution
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    # Mount tmp directory for ephemeral data
+    volumes:
+      - code-execution-tmp:/home/appuser/app/tmp
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - TIMEOUT_SECONDS=10
+
+volumes:
+  code-execution-tmp:
+    driver: local 
