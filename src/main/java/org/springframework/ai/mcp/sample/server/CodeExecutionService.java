@@ -195,13 +195,9 @@ public class CodeExecutionService {
                        String.join(", ", SUPPORTED_LANGUAGES.keySet());
             }
             
-            // Check if the code contains literal \n characters (backslash followed by n)
-            // This typically happens when the client sends a string with escaped newlines
-            if (code.contains("\\n")) {
-                // Replace all occurrences of \n with actual newlines
-                // Note: The replace method uses regex, so we need to escape the backslash
-                code = code.replaceAll("\\\\n", "\n");
-            }
+            // Process escaped characters in the code
+            // This handles cases where the client sends strings with escaped sequences
+            code = processEscapedCharacters(code);
             
             LanguageConfig config = SUPPORTED_LANGUAGES.get(language);
             
@@ -272,6 +268,29 @@ public class CodeExecutionService {
         } catch (Exception e) {
             return "Error executing code: " + e.getMessage();
         }
+    }
+    
+    /**
+     * Process escaped characters in the code
+     * This handles cases where the client sends strings with escaped sequences
+     */
+    private String processEscapedCharacters(String code) {
+        if (code == null) return null;
+        
+        // Process common escape sequences
+        
+        // Replace \\n with actual newlines
+        code = code.replace("\\n", "\n");
+        
+        // Replace escaped quotes with actual quotes
+        code = code.replace("\\\"", "\"");
+        
+        // Replace other common escaped characters if needed
+        code = code.replace("\\t", "\t");
+        code = code.replace("\\r", "\r");
+        code = code.replace("\\\\", "\\");
+        
+        return code;
     }
     
     // Helper method to extract the class name from Java code
