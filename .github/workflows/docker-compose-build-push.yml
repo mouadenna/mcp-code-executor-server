@@ -1,4 +1,4 @@
-name: Build and Push with Docker Compose
+name: Build and Push Docker Image
 
 on:
   push:
@@ -22,11 +22,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Docker image using Compose
-        run: docker-compose build
+      - name: Build the Docker image
+        run: |
+          docker build -t mcp-code-executor .
 
       - name: Tag Docker image
-        run: docker tag mcp-code-executor mouadenna/mcp-code-executor:latest
+        run: |
+          docker tag mcp-code-executor mouadenna/mcp-code-executor:latest
 
-      - name: Push Docker image
-        run: docker push mouadenna/mcp-code-executor:latest
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push mouadenna/mcp-code-executor:latest
