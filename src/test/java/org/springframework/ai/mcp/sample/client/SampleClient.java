@@ -47,15 +47,27 @@ public class SampleClient {
 		ListToolsResult toolsList = client.listTools();
 		System.out.println("Available Tools = " + toolsList);
 
-		CallToolResult weatherForcastResult = client.callTool(new CallToolRequest("getWeatherForecastByLocation",
-				Map.of("latitude", "47.6062", "longitude", "-122.3321")));
-		System.out.println("Weather Forcast: " + weatherForcastResult);
-
-		CallToolResult alertResult = client.callTool(new CallToolRequest("getAlerts", Map.of("state", "NY")));
-		System.out.println("Alert Response = " + alertResult);
+		// Test code execution with Java
+		String javaCode = "public class HelloWorld {\n" +
+						  "    public static void main(String[] args) {\n" +
+						  "        System.out.println(\"Hello from MCP Code Executor!\");\n" +
+						  "        System.out.println(\"The sum of 5 and 7 is: \" + (5 + 7));\n" +
+						  "    }\n" +
+						  "}";
+		
+		CallToolResult javaExecutionResult = client.callTool(new CallToolRequest("executeCode", 
+				Map.of("language", "java", "code", javaCode)));
+		System.out.println("Java Code Execution Result: " + javaExecutionResult);
+		
+		// Test code execution with Python
+		String pythonCode = "print('Hello from Python!')\n" +
+							"result = 10 * 3.5\n" +
+							"print(f'10 multiplied by 3.5 equals {result}')";
+		
+		CallToolResult pythonExecutionResult = client.callTool(new CallToolRequest("executeCode", 
+				Map.of("language", "python", "code", pythonCode)));
+		System.out.println("Python Code Execution Result: " + pythonExecutionResult);
 
 		client.closeGracefully();
-
 	}
-
 }

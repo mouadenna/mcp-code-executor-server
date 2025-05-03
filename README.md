@@ -1,27 +1,60 @@
-# Spring AI MCP Code Executor
+# MCP Code Executor Server
 
-This project demonstrates the use of Spring AI's Model Context Protocol (MCP) to provide a code execution service. The service allows AI Agents to execute code in multiple programming languages through a structured API offering a dedicated isolated environment for your agent.
+A robust Model Context Protocol (MCP) server that enables AI agents to execute code across multiple programming languages in a secure, isolated environment.
 
-## Features
+## Overview
 
-- Execute code in multiple languages
-- Handles compilation for compiled languages
-- Clean and simple API
-- Provides a dedicated isolated environment for secure code execution
-- Supported languages:
-  - Java
-  - Python
-  - JavaScript
-  - TypeScript
-  - C++
+This project implements a Model Context Protocol (MCP) server using Spring AI to provide code execution capabilities to AI agents. Think of MCP like a USB-C port for AI applications - it standardizes how AI models connect to different data sources and tools. This code executor server helps bridge the gap between language models and actual code execution.
+
+## Key Features
+
+- **Multi-language Support**: Execute code in Java, Python, JavaScript, TypeScript, and C++
+- **Secure Execution**: Runs code in isolated environments with proper resource constraints
+- **MCP Integration**: Connects seamlessly with any MCP-compatible client and build your own agent capable of running code
+- **Error Handling**: Provides detailed feedback for compilation and runtime errors
+- **Resource Management**: Automatically cleans up temporary files and enforces execution timeouts
 
 ## How It Works
 
-The application uses Spring Boot and Spring AI to expose code execution capabilities through the Model Context Protocol. The key components are:
+The server exposes a standardized MCP tool endpoint that allows AI assistants to:
 
-1. **CodeExecutionService**: A service that creates temporary files with the provided code, executes them in the appropriate runtime, and returns the output. For compiled languages, it handles the compilation step automatically.
+1. Submit code in a supported language
+2. Have it executed in a controlled environment
+3. Receive the execution output or error messages
 
-2. **McpServerApplication**: The main Spring Boot application that registers the CodeExecutionService as a tool provider for AI systems.
+For compiled languages (Java, C++, TypeScript), the server automatically handles the compilation step before execution.
+
+## Getting Started
+
+### Prerequisites
+
+- Java 17 or higher
+- Python (for Python code execution)
+- Node.js and npm (for JavaScript/TypeScript)
+- g++ or compatible C++ compiler (for C++ code execution)
+
+### Running Locally
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/mcp-code-executor-server.git
+cd mcp-code-executor-server
+
+# Build the project
+./mvnw clean package
+
+# Run the server
+./mvnw spring-boot:run
+```
+
+The server will start on port 8080 by default and register itself as an MCP server capable of executing code.
+
+### Connecting to MCP Clients
+
+1. Start your MCP client
+2. Connect to the MCP server at `http://localhost:8080`
+3. The client will discover the available code execution tool
+4. You can now ask the AI to execute code through the MCP server
 
 ## Containerized Deployment
 
@@ -50,48 +83,29 @@ docker-compose logs -f
 docker-compose down
 ```
 
-The Docker setup includes:
-- A non-root user for improved security
-- Resource limits to prevent abuse
-- Isolated execution environment
-- Ephemeral storage for code execution
+## MCP Architecture
 
-## Safety Features
+This project follows the Model Context Protocol's client-server architecture:
 
-- Execution timeouts (15 seconds by default)
-- Temporary file cleanup
-- Combined stdout/stderr output
-- Error handling and compilation feedback
-
-## Usage
-
-To run the application:
-
-```bash
-./mvnw spring-boot:run
-```
-
-The MCP service will be available for AI systems to connect to and execute code.
-
-## API
-
-The service exposes the following tool endpoint through MCP:
-
-- `executeCode(String language, String code)`: Execute code in the specified language
-
-## Requirements
-
-- Java 17 or higher
-- Python (for Python code execution)
-- Node.js (for JavaScript and TypeScript code execution)
-- g++ or compatible C++ compiler (for C++ code execution)
-- TypeScript tools (for TypeScript code execution)
+- **MCP Host**: AI applications like Claude Desktop that want to execute code
+- **MCP Client**: The protocol client that connects to our server
+- **MCP Server**: This application (exposes code execution capabilities through MCP)
+- **Resources**: The code execution service exposed as a standardized MCP tool
 
 ## Security Considerations
 
-This application is designed for demonstration purposes. In a production environment, consider:
+For production use, consider implementing:
 
-- Adding resource limitations
-- Implementing security sandboxing
-- Adding authentication and authorization
-- Restricting execution to trusted code only 
+- More restrictive resource limits (CPU, memory, execution time)
+- Stronger sandboxing for execution environments
+- Input validation and sanitization
+- Authentication and authorization for MCP connections
+- Network isolation for executed code
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details. 
