@@ -195,6 +195,14 @@ public class CodeExecutionService {
                        String.join(", ", SUPPORTED_LANGUAGES.keySet());
             }
             
+            // Check if the code contains literal \n characters (backslash followed by n)
+            // This typically happens when the client sends a string with escaped newlines
+            if (code.contains("\\n")) {
+                // Replace all occurrences of \n with actual newlines
+                // Note: The replace method uses regex, so we need to escape the backslash
+                code = code.replaceAll("\\\\n", "\n");
+            }
+            
             LanguageConfig config = SUPPORTED_LANGUAGES.get(language);
             
             // Create a temporary directory for the code files
