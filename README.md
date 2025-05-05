@@ -30,7 +30,6 @@ MCP Code Executor Server standardizes how AI models connect to various programmi
 
 The MCP Code Executor Server follows a client-server model:
 
-* **MCP Host**: AI application requesting code execution.
 * **MCP Client**: Protocol client that connects to this server.
 * **MCP Server**: This application, exposing code-execution tools.
 * **Sandboxed Runtimes**: Containers or isolated processes per request.
