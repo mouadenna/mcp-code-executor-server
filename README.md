@@ -102,17 +102,6 @@ Example MCP request:
   "code": "print('Hello, world!')\nprint('hello again')"
 }
 ```
-
----
-
-## 🔒 Security Considerations
-
-* Implement stronger sandboxing (e.g., gVisor, Firecracker).
-* Enforce strict CPU, memory, and I/O limits.
-* Validate and sanitize input code.
-* Add authentication/authorization for MCP connections.
-* Restrict network access for executed code.
-
 ---
 
 ## 🤝 Contributing
