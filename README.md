@@ -98,9 +98,8 @@ Example MCP request:
 
 ```json
 {
-  "tool": "code-executor",
   "language": "python",
-  "code": "print('Hello, world!')"
+  "code": "print('Hello, world!')\nprint('hello again')"
 }
 ```
 
