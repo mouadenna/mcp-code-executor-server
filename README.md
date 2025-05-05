@@ -11,7 +11,7 @@ MCP Code Executor Server standardizes how AI models connect to various programmi
 1. **Submit** code in a supported language.
 2. **Execute** it in a controlled, sandboxed environment.
 3. **Receive** output, including compilation or runtime errors.
-![Code Execution Architecture](./code-execution-diagram.jpeg)
+![Code Execution Architecture](code-execution-diagram.jpeg)
 
 
 ---
